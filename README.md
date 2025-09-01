@@ -119,6 +119,21 @@ log(e)            = 1
 10 % 3            = 1
 ```
 
+### Implicit Multiplication
+
+The calculator supports implicit multiplication for more natural mathematical notation:
+
+```
+2pi               = 6.283185307
+3e                = 8.154845485
+2sin(pi/2)        = 2
+5(3+2)            = 25
+(2)(3)            = 6
+sin(pi/2)2        = 2
+2sqrt(9)          = 6
+(2+3)(4+5)        = 45
+```
+
 ## Architecture
 
 All implementations share the same core calculator engine:

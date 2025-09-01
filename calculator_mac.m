@@ -216,7 +216,29 @@ double parse_term(Parser *parser) {
 }
 
 double parse_factor(Parser *parser) {
-    return parse_power(parser);
+    double left = parse_power(parser);
+    
+    // Check for implicit multiplication patterns
+    // Examples: 2pi, 2sin(x), 2(3+4), (2)(3)
+    while (!parser->has_error) {
+        TokenType next = parser->lexer->current.type;
+        
+        // Number or closing paren followed by: constant, function, or opening paren
+        if (next == TOKEN_PI || next == TOKEN_E || 
+            next == TOKEN_LPAREN ||
+            next == TOKEN_SIN || next == TOKEN_COS || next == TOKEN_TAN ||
+            next == TOKEN_SQRT || next == TOKEN_LOG || next == TOKEN_EXP ||
+            next == TOKEN_ABS || next == TOKEN_NUMBER) {
+            
+            // Implicitly multiply by the next factor
+            double right = parse_power(parser);
+            left = left * right;
+        } else {
+            break;
+        }
+    }
+    
+    return left;
 }
 
 double parse_power(Parser *parser) {
